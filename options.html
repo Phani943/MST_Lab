@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SRKR PDF Portal - Selection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #1E1E2E, #3A3D5A);
+            margin: 0;
+            overflow: hidden;
+        }
+        .background-design {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+        .circle, .triangle, .square, .wave {
+            position: absolute;
+            opacity: 0.3;
+            backdrop-filter: blur(5px);
+        }
+        .circle {
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            top: 10%;
+            left: 15%;
+        }
+        .triangle {
+            width: 0;
+            height: 0;
+            border-left: 80px solid transparent;
+            border-right: 80px solid transparent;
+            border-bottom: 120px solid rgba(255, 255, 255, 0.1);
+            top: 70%;
+            left: 60%;
+        }
+        .square {
+            width: 120px;
+            height: 120px;
+            background: rgba(255, 255, 255, 0.1);
+            top: 30%;
+            left: 75%;
+        }
+        .wave {
+            width: 100%;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            clip-path: polygon(0 50%, 100% 70%, 100% 100%, 0% 100%);
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            padding: 60px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            text-align: center;
+            width: 800px;
+            color: white;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+        }
+        .toggle-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        .toggle-label {
+            font-size: 22px;
+            font-weight: 600;
+            margin: 0 20px;
+        }
+        .toggle-button {
+            width: 100px;
+            height: 40px;
+            background: linear-gradient(90deg, #FF416C, #FF4B2B);
+            border-radius: 20px;
+            position: relative;
+            cursor: pointer;
+        }
+        .toggle-button::before {
+            content: '';
+            position: absolute;
+            width: 35px;
+            height: 35px;
+            background: white;
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 5px;
+            transition: 0.3s;
+        }
+        .active::before {
+            left: 60px;
+        }
+        .dropdown-container {
+            display: none;
+            flex-direction: column;
+            gap: 25px;
+            margin-top: 20px;
+        }
+        select {
+            padding: 14px;
+            font-size: 20px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            outline: none;
+        }
+        button {
+            padding: 16px;
+            background: linear-gradient(90deg, #FF416C, #FF4B2B);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 22px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        button:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="background-design">
+        <div class="circle"></div>
+        <div class="triangle"></div>
+        <div class="square"></div>
+        <div class="wave"></div>
+    </div>
+    <div class="container">
+        <div class="toggle-container">
+            <span class="toggle-label">Time Table</span>
+            <div class="toggle-button" id="toggleBtn"></div>
+            <span class="toggle-label">PDF</span>
+        </div>
+        <div class="dropdown-container" id="pdfOptions">
+            <select>
+                <option>Select Subject</option>
+                <option>Mathematics</option>
+                <option>Physics</option>
+                <option>Computer Science</option>
+            </select>
+            <select>
+                <option>Select Teacher</option>
+                <option>Dr. Rao</option>
+                <option>Prof. Sharma</option>
+                <option>Ms. Patel</option>
+            </select>
+            <button>Submit</button>
+        </div>
+        <div class="dropdown-container" id="timeTableOptions" style="display: none;">
+            <select>
+                <option>Select Day</option>
+                <option>Monday</option>
+                <option>Tuesday</option>
+                <option>Wednesday</option>
+                <option>Thursday</option>
+                <option>Friday</option>
+                <option>Saturday</option>
+            </select>
+            <select>
+                <option>Select Branch</option>
+                <option>CSE</option>
+                <option>ECE</option>
+                <option>EEE</option>
+                <option>MECH</option>
+                <option>CIVIL</option>
+            </select>
+            <select>
+                <option>Select Section</option>
+                <option>A</option>
+                <option>B</option>
+                <option>C</option>
+                <option>D</option>
+            </select>
+            <button>Submit</button>
+        </div>
+    </div>
+    <script>
+        const toggleBtn = document.getElementById('toggleBtn');
+        const pdfOptions = document.getElementById('pdfOptions');
+        const timeTableOptions = document.getElementById('timeTableOptions');
+        toggleBtn.classList.add('active');
+        pdfOptions.style.display = 'flex';
+
+        toggleBtn.addEventListener('click', () => {
+            toggleBtn.classList.toggle('active');
+            const isActive = toggleBtn.classList.contains('active');
+            pdfOptions.style.display = isActive ? 'flex' : 'none';
+            timeTableOptions.style.display = isActive ? 'none' : 'flex';
+        });
+    </script>
+</body>
+</html>
